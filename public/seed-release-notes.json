@@ -1,0 +1,100 @@
+{
+  "releases": [
+    {
+      "version": "1.0.0",
+      "date": "2007-09-24",
+      "notes": [
+        {
+          "id": "tbbt-pilot-1",
+          "type": "NEW",
+          "title": "Penny moves in across the hall",
+          "note_md": "New neighbour introduces herself. Leonard is **smitten**. Sheldon remains unimpressed by social conventions.\n\n- First appearance of the apartment hallway\n- *Knock knock knock* Penny?\n- 📺 Pilot episode"
+        },
+        {
+          "id": "tbbt-pilot-2",
+          "type": "NEW",
+          "title": "The spot on the couch",
+          "note_md": "Sheldon's preferred seating position is established.\n\n### Rules\n1. **No** sitting in the spot\n2. Violations may result in passive-aggressive comments\n3. Repeated knocking may occur\n\n![Couch](https://via.placeholder.com/320x120/5c6bc0/fff?text=The+Spot)"
+        },
+        {
+          "id": "tbbt-pilot-3",
+          "type": "BUG",
+          "title": "Elevator out of order",
+          "note_md": "Building elevator has been broken since **2003**. Stairs are the only option.\n\nSheldon finds this suboptimal. 🛗❌"
+        }
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2008-09-22",
+      "notes": [
+        {
+          "id": "tbbt-s2-1",
+          "type": "NEW",
+          "title": "Raj can now speak to women",
+          "note_md": "When under the influence of alcohol, Rajesh Koothrappali gains the ability to speak in the presence of women.\n\n> So far only works at parties.\n\n🍷🗣️"
+        },
+        {
+          "id": "tbbt-s2-2",
+          "type": "UPDATE",
+          "title": "Roommate agreement amendments",
+          "note_md": "Sections **47 through 51** added:\n\n- Shared refrigerator usage\n- Bathroom schedule\n- Dispute resolution: *Rock-Paper-Scissors-Lizard-Spock*\n\n```\nScissors cuts Paper\nPaper covers Rock\n...\n```"
+        },
+        {
+          "id": "tbbt-s2-3",
+          "type": "NEW",
+          "title": "Howard's mother",
+          "note_md": "Mrs. Wolowitz is now a recurring character. She is **heard but never seen**.\n\nVolume set to maximum. 📢"
+        }
+      ]
+    },
+    {
+      "version": "3.0.0",
+      "date": "2010-09-23",
+      "notes": [
+        {
+          "id": "tbbt-s4-1",
+          "type": "NEW",
+          "title": "Amy Farrah Fowler",
+          "note_md": "Neurobiologist introduced via online dating.\n\nSheldon describes her as *\"the female equivalent of me, minus the need for a second bathroom.\"*\n\n🔬❤️"
+        },
+        {
+          "id": "tbbt-s4-2",
+          "type": "NEW",
+          "title": "Bernadette Rostenkowski",
+          "note_md": "Howard's love interest.\n\n- Microbiologist\n- Part-time waitress\n- Has a **surprisingly assertive** voice when needed\n\n![Bernadette](https://via.placeholder.com/200x100/ff8a65/fff?text=Bernadette)"
+        }
+      ]
+    },
+    {
+      "version": "4.0.0",
+      "date": "2012-05-10",
+      "notes": [
+        {
+          "id": "tbbt-s5-1",
+          "type": "UPDATE",
+          "title": "Wedding: Howard and Bernadette",
+          "note_md": "### Wedding highlights\n\n- Howard marries Bernadette 💒\n- Mrs. Wolowitz attends\n- Neil Diamond's *Sweet Caroline* is performed\n- Sheldon delivers a speech about the **Mars rover**\n\n🎉🎊"
+        },
+        {
+          "id": "tbbt-s5-2",
+          "type": "NEW",
+          "title": "Soft kitty",
+          "note_md": "Documented procedure for when Sheldon is sick:\n\n1. Sing *Soft Kitty* (twice)\n2. Alternative: *I am the very model of a modern major general* in reverse\n\n🐱🎵"
+        }
+      ]
+    },
+    {
+      "version": null,
+      "date": null,
+      "notes": [
+        {
+          "id": "tbbt-draft-1",
+          "type": "NEW",
+          "title": "Nobel Prize (pending)",
+          "note_md": "Sheldon and Amy's super-asymmetry work may one day be recognised.\n\nSheldon has already written his acceptance speech. **Multiple times.**\n\n🏆📜"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Large note dialog: grow with content, no fixed height so no empty space below buttons */
+.note-dialog-large .mat-mdc-dialog-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+  height: auto;
+}
+.note-dialog-large .mat-mdc-dialog-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+/* Ensure dialog title doesn't clip the first row labels */
+.note-dialog-large .mat-mdc-dialog-title {
+  margin-bottom: 0;
+  padding-bottom: 8px;
+}
