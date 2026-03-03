@@ -7,6 +7,8 @@ import type { ReleaseNoteEntity } from './release-note.entity';
 export interface ReleaseEntity {
   version: string | null;
   date: string | null;
+  /** Optional description shown under the release header (e.g. focus of the release). */
+  description?: string | null;
   notes: ReleaseNoteEntity[];
 }
 

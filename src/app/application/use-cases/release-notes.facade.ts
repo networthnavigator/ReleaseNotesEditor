@@ -25,12 +25,22 @@ export class ReleaseNotesFacade {
     return this.repo.ensureNextRelease();
   }
 
-  addRelease(version: string | null, date: string | null): ReleaseEntity {
-    return this.repo.addRelease(version, date);
+  createReleaseFromDraft(
+    version: string,
+    date: string,
+    description: string | null,
+    noteIds: string[]
+  ): void {
+    this.repo.createReleaseFromDraft(version, date, description, noteIds);
   }
 
-  updateRelease(index: number, version: string | null, date: string | null): void {
-    this.repo.updateRelease(index, version, date);
+  updateRelease(
+    index: number,
+    version: string | null,
+    date: string | null,
+    description: string | null
+  ): void {
+    this.repo.updateRelease(index, version, date, description);
   }
 
   deleteRelease(index: number): void {

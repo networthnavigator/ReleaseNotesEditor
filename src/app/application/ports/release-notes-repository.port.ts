@@ -13,9 +13,20 @@ export interface ReleaseNotesRepositoryPort {
 
   ensureNextRelease(): ReleaseEntity;
 
-  addRelease(version: string | null, date: string | null): ReleaseEntity;
+  /** Create a new release from draft: move notes with given ids from draft to the new release. */
+  createReleaseFromDraft(
+    version: string,
+    date: string,
+    description: string | null,
+    noteIds: string[]
+  ): void;
 
-  updateRelease(index: number, version: string | null, date: string | null): void;
+  updateRelease(
+    index: number,
+    version: string | null,
+    date: string | null,
+    description: string | null
+  ): void;
 
   deleteRelease(index: number): void;
 

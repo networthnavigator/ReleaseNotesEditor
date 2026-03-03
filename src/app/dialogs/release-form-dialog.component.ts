@@ -4,10 +4,27 @@ import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { parseYyyyMmDd, toYyyyMmDd } from '../utils/date.utils';
+
+const DD_MM_YYYY_FORMATS = {
+  parse: { dateInput: null as any, timeInput: null as any },
+  display: {
+    dateInput: { day: '2-digit', month: '2-digit', year: 'numeric' } as Intl.DateTimeFormatOptions,
+    monthYearLabel: { year: 'numeric', month: 'short' } as Intl.DateTimeFormatOptions,
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions,
+    monthYearA11yLabel: { year: 'numeric', month: 'long' } as Intl.DateTimeFormatOptions,
+    timeInput: { hour: 'numeric', minute: 'numeric' } as Intl.DateTimeFormatOptions,
+    timeOptionLabel: { hour: 'numeric', minute: 'numeric' } as Intl.DateTimeFormatOptions,
+  },
+};
 
 export interface ReleaseFormData {
   version: string | null;
   date: string | null;
+  description?: string | null;
 }
 
 @Component({
@@ -19,18 +36,28 @@ export interface ReleaseFormData {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,
+  ],
+  providers: [
+    provideNativeDateAdapter(DD_MM_YYYY_FORMATS),
+    { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' },
   ],
   template: `
-    <h2 mat-dialog-title>{{ data?.version != null ? 'Edit release' : 'Add release' }}</h2>
+    <h2 mat-dialog-title>Edit release</h2>
     <mat-dialog-content>
-      <p class="hint">Leave both empty for "Next release". Set version and date when you publish.</p>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Version</mat-label>
         <input matInput [(ngModel)]="version" placeholder="e.g. 1.5.0" name="version" />
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Date</mat-label>
-        <input matInput [(ngModel)]="date" placeholder="YYYY-MM-DD" name="date" />
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dateValue" name="date" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="description" placeholder="e.g. This release focused on..." name="description" rows="3"></textarea>
       </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -40,7 +67,6 @@ export interface ReleaseFormData {
   `,
   styles: [
     `
-      .hint { margin: 0 0 16px; font-size: 0.9rem; color: rgba(0,0,0,0.6); }
       .full-width { width: 100%; display: block; }
     `,
   ],
@@ -50,12 +76,14 @@ export class ReleaseFormDialogComponent {
   private readonly ref = inject(MatDialogRef<ReleaseFormDialogComponent>);
 
   version: string = this.data?.version ?? '';
-  date: string = this.data?.date ?? '';
+  dateValue: Date | null = parseYyyyMmDd(this.data?.date ?? '') ?? null;
+  description: string = this.data?.description ?? '';
 
   submit(): void {
     this.ref.close({
       version: this.version.trim() || null,
-      date: this.date.trim() || null,
+      date: this.dateValue ? toYyyyMmDd(this.dateValue) : null,
+      description: this.description.trim() || null,
     });
   }
 }

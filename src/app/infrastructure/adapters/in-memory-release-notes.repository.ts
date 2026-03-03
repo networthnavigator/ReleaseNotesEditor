@@ -56,13 +56,15 @@ export class InMemoryReleaseNotesRepository implements ReleaseNotesRepositoryPor
   /** Map legacy "content" to note_md and ensure each note has note_md. */
   private normalizeLoadedAggregate(aggregate: ReleaseNotesAggregate): ReleaseNotesAggregate {
     type LoadedNote = { id?: string; type?: string; title?: string; note_md?: string; content?: string; images?: string[] };
-    const rawReleases = aggregate.releases ?? [];
+    type LoadedRelease = ReleaseEntity & { description?: string | null };
+    const rawReleases = (aggregate.releases ?? []) as LoadedRelease[];
     return {
       releases: rawReleases.map((r) => {
         const rawNotes: LoadedNote[] = r.notes ?? [];
         return {
           version: r.version,
           date: r.date,
+          description: r.description ?? null,
           notes: rawNotes.map((n) => ({
             id: n.id ?? '',
             type: (n.type ?? 'NEW') as ReleaseNoteEntity['type'],
@@ -84,17 +86,40 @@ export class InMemoryReleaseNotesRepository implements ReleaseNotesRepositoryPor
     return newRelease;
   }
 
-  addRelease(version: string | null, date: string | null): ReleaseEntity {
-    const newRelease: ReleaseEntity = { version, date, notes: [] };
-    this.data.update((d) => ({ releases: [...d.releases, newRelease] }));
-    return newRelease;
+  createReleaseFromDraft(
+    version: string,
+    date: string,
+    description: string | null,
+    noteIds: string[]
+  ): void {
+    const idSet = new Set(noteIds);
+    this.data.update((d) => {
+      const draft = d.releases.find((r) => !r.version && !r.date);
+      if (!draft) return d;
+      const forRelease = draft.notes.filter((n) => idSet.has(n.id));
+      const remainingInDraft = draft.notes.filter((n) => !idSet.has(n.id));
+      const newRelease: ReleaseEntity = {
+        version,
+        date,
+        description: description || null,
+        notes: forRelease,
+      };
+      const updatedDraft = { ...draft, notes: remainingInDraft };
+      const otherReleases = d.releases.filter((r) => r.version != null || r.date != null);
+      return { releases: [updatedDraft, newRelease, ...otherReleases] };
+    });
   }
 
-  updateRelease(displayIndex: number, version: string | null, date: string | null): void {
+  updateRelease(
+    displayIndex: number,
+    version: string | null,
+    date: string | null,
+    description: string | null
+  ): void {
     const index = this.getStorageIndex(displayIndex);
     this.data.update((d) => ({
       releases: d.releases.map((r, i) =>
-        i === index ? { ...r, version, date } : r
+        i === index ? { ...r, version, date, description: description ?? r.description } : r
       ),
     }));
   }
@@ -163,6 +188,7 @@ export class InMemoryReleaseNotesRepository implements ReleaseNotesRepositoryPor
       releases: data.releases.map((r) => ({
         version: r.version,
         date: r.date,
+        ...(r.description != null && r.description !== '' ? { description: r.description } : {}),
         notes: r.notes.map((n) => ({
           id: n.id,
           type: n.type,
