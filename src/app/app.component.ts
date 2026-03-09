@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,7 +34,7 @@ import JSZip from 'jszip';
   ],
   template: `
     <mat-toolbar color="primary">
-      <span>Release Notes Editor</span>
+      <span>Release Notes Editor@if (appVersion(); as v) { ({{ v }}) }</span>
       <span class="spacer"></span>
       <button mat-raised-button (click)="openPreview()" matTooltip="Open release notes panel as users will see it">
         <span class="material-symbols-outlined">visibility</span>
@@ -168,6 +168,7 @@ import JSZip from 'jszip';
 export class AppComponent implements OnInit {
   readonly dataService = inject(ReleaseNotesFacade);
   readonly releases = this.dataService.getReleases();
+  readonly appVersion = signal<string | null>(null);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   private readonly releaseNotesPanel = inject(ReleaseNotesPanelService);
@@ -175,6 +176,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.ensureNextRelease();
+    fetch('version.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body: { version?: string } | null) => this.appVersion.set(body?.version ?? null))
+      .catch(() => {});
   }
 
   openPreview(): void {
